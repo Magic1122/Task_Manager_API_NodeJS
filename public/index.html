@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Task App Rest API</title>
+</head>
+
+<body>
+    <div class="container">
+    <h1>Task App</h1>
+    <p>The Task App allows users to create accounts and track their tasks, marking them as completed. It has built-in
+        filtering and querying for tasks. Routes are secured behind authentication and tasks are automatically filtered
+        by user profile. The API connects to a mongoDB instance that preserves all user and task information.
+        <p>The API is reachable at <a
+                href="https://rest-api-task-manager.herokuapp.com/">https://rest-api-task-manager.herokuapp.com/</a>.
+        </p>
+    </p>
+    <h1>Rest API Documentation</h1>
+    <p>The following endpoints are accessible through the API. Select each to read more about the data constraints,
+        responses, errors, and to see examples.</p>
+    <h2>Open Endpoints</h2>
+    <p>Open endpoints require no authentication</p>
+
+    <p>Register : POST /users/</p>
+    <p>Data example</p>
+    <p>{
+        </br>
+        "name": "Test",</br>
+        "email": "test@testuser.com",</br>
+        "password": "test1234"</br>
+        }
+    </p>
+    <p>Response</p>
+    <p>{</br>
+        "user": {</br>
+        "age": 0,</br>
+        "_id": "5e944fc1adebd30017ce220a",</br>
+        "name": "Test",</br>
+        "email": "test@testuser.com",</br>
+        "createdAt": "2020-04-13T11:40:49.321Z",</br>
+        "updatedAt": "2020-04-13T11:40:49.665Z",</br>
+        "__v": 1</br>
+        },</br>
+        "token":
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTk0NGZjMWFkZWJkMzAwMTdjZTIyMGEiLCJpYXQiOjE1ODY3NzgwNDl9.5Ela8XTpl85PHfE2fISAW_G6ZgGrw_iueDU7laUBwk0"</br>
+        }</p>
+
+    <p>Login : POST /users/login</p>
+    <p>Data example</p>
+    <p>{
+        </br>
+        "email": "test@testuser.com",</br>
+        "password": "test1234"</br>
+        }
+    </p>
+    <p>Response</p>
+    <p>{</br>
+        "user": {</br>
+        "age": 0,</br>
+        "_id": "5e944fc1adebd30017ce220a",</br>
+        "name": "Test",</br>
+        "email": "test@testuser.com",</br>
+        "createdAt": "2020-04-13T11:40:49.321Z",</br>
+        "updatedAt": "2020-04-13T11:40:49.665Z",</br>
+        "__v": 1</br>
+        },</br>
+        "token":
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTk0NGZjMWFkZWJkMzAwMTdjZTIyMGEiLCJpYXQiOjE1ODY3NzgwNDl9.5Ela8XTpl85PHfE2fISAW_G6ZgGrw_iueDU7laUBwk0"</br>
+        }</p>
+    <h2>Endpoints Requiring Authentication</h2>
+    <p>Closed endpoints require a valid JWT Token to be included in the request header. The JWT Token can be acquired
+        through either the [Register] or [Login] endpoints above. The JWT Token is expected in the standard form:
+    </p>
+    <p>Authorization: Bearer &ltJWT Token&gt
+    </p>
+    <h2>User Endpoints</h2>
+    <p>Logout Single: POST /users/logout</p>
+    <p>Remove provided JWT Token from user profile.</p>
+
+    <p>Logout All Sessions: POST /users/logoutAll</p>
+    <p>Note: The difference between /logout and /logoutAll is that /logout only removes the token supplied in the
+        header, effectively logging the user out from their current device. /logoutAll removes every JWT Token from
+        their user profile, removing their account's access from every device.
+    </p>
+
+    <p>Show Info (self): GET /users/me</p>
+    <p>Response</p>
+    <p>{</br>
+        "user": {</br>
+        "age": 0,</br>
+        "_id": "5e944fc1adebd30017ce220a",</br>
+        "name": "Test",</br>
+        "email": "test@testuser.com",</br>
+        "createdAt": "2020-04-13T11:40:49.321Z",</br>
+        "updatedAt": "2020-04-13T11:40:49.665Z",</br>
+        "__v": 1</br>
+        },</br>
+
+
+        <p>Update Info (self): PATCH /users/me</p>
+        <p>Data example</p>
+        <p>{<br>
+            "age": 12,<br>
+            "password": "somepass123456"<br>
+        }</p>
+        <p>Response</p>
+        <p>{<br>
+            "age": 12,<br>
+            "_id": "5e94534b1ae4e3800c3f6045",<br>
+            "name": "Test",<br>
+            "email": "test@testuser.com",<br>
+            "createdAt": "2020-04-13T11:55:55.222Z",<br>
+            "updatedAt": "2020-04-13T12:00:02.156Z",<br>
+            "__v": 1<br>
+        }</p>
+
+
+        <p>Delete User: DELETE /users/me</p>
+        <p>Deletes the user</p>
+
+        <p>Upload Avatar: POST /users/me/avatar</p>
+        <p>Note: This route receives multipart/form-data rather than a JSON object. Its key-value pairs are avatar and a file ending in .jpg, .jpeg, or .png.
+        </p>
+        <p>The image is resized to a 250 x 300 pixels and uploaded into the MongoDB store as a buffered object. Returns the user object.
+        </p>
+
+
+        <p>Delete Avatar: DELETE /users/me/avatar</p>
+        <p>Deletes the user avatar</p>
+
+        <p>Show Avatar: GET /users/:id/avatar</p>
+        <p>Shows the user avatar</p>
+
+        <h2>Task Enpoints</h2>
+        <p>List All Tasks: GET /tasks</p>
+        <p>URL Params :</p>
+
+           <p>Filter By Completion: ?completed=true/false/null</p>
+            <p>Pagination: ?limit=someIntValue</p>
+            <p>Sorting: ?sortBy=createdAt:asc/desc</p>
+        <p>Response</p>
+        <p>[</br>
+            {</br>
+                "completed": false,</br>
+                "_id": "5e9458750e843f41b8d6ed2f",</br>
+                "description": "Learn RestAPI",</br>
+                "owner": "5e94534b1ae4e3800c3f6045",</br>
+                "createdAt": "2020-04-13T12:17:57.510Z",</br>
+                "updatedAt": "2020-04-13T12:17:57.510Z",</br>
+                "__v": 0</br>
+            },
+            {
+                "completed": false,</br>
+                "_id": "5e9458880e843f41b8d6ed30",</br>
+                "description": "Learn RestAPI and MongoDB",</br>
+                "owner": "5e94534b1ae4e3800c3f6045",</br>
+                "createdAt": "2020-04-13T12:18:16.041Z",</br>
+                "updatedAt": "2020-04-13T12:18:16.041Z",</br>
+                "__v": 0</br>
+            }
+        ]</p>
+
+        <p>Create Single Task: POST /tasks</p>
+        <p>Data example:</p>
+        <p>{ </br>
+            "description": "Learn RestAPI and MongoDB"</br>
+        }</p>
+        <p>Response:</p>
+        <p> {
+            "completed": false,</br>
+            "_id": "5e9458880e843f41b8d6ed30",</br>
+            "description": "Learn RestAPI and MongoDB",</br>
+            "owner": "5e94534b1ae4e3800c3f6045",</br>
+            "createdAt": "2020-04-13T12:18:16.041Z",</br>
+            "updatedAt": "2020-04-13T12:18:16.041Z",</br>
+            "__v": 0</br>
+        }</p>
+
+        <p>Show Single Task: GET /tasks/:id</p>
+        <p>Response:</p>
+        <p> {
+            "completed": false,</br>
+            "_id": "5e9458880e843f41b8d6ed30",</br>
+            "description": "Learn RestAPI and MongoDB",</br>
+            "owner": "5e94534b1ae4e3800c3f6045",</br>
+            "createdAt": "2020-04-13T12:18:16.041Z",</br>
+            "updatedAt": "2020-04-13T12:18:16.041Z",</br>
+            "__v": 0</br>
+        }</p>
+
+        <p>Update Single Task: PATCH /tasks/:id</p>
+        <p>Data example:</p>
+        <p>{  </br>
+            "description": "Learn NodeJS"</br>
+        }</p>
+        <p>Respone:</p>
+        <p>{</br>
+            "completed": false,</br>
+            "_id": "5e9458880e843f41b8d6ed30",</br>
+            "description": "Learn NodeJS",</br>
+            "owner": "5e94534b1ae4e3800c3f6045",</br>
+            "createdAt": "2020-04-13T12:18:16.041Z",</br>
+            "updatedAt": "2020-04-13T12:24:16.066Z",</br>
+            "__v": 0</br>
+        }</p>
+        <p>Delete Single Task: DELETE /tasks/:id</p>
+        <p>Response:</p>
+        <p>{</br>
+            "completed": false,</br>
+            "_id": "5e9458880e843f41b8d6ed30",</br>
+            "description": "Learn NodeJS",</br>
+            "owner": "5e94534b1ae4e3800c3f6045",</br>
+            "createdAt": "2020-04-13T12:18:16.041Z",</br>
+            "updatedAt": "2020-04-13T12:24:16.066Z",</br>
+            "__v": 0</br>
+        }</p>
+
+
+    </div>
+</body>
+
+</html>
