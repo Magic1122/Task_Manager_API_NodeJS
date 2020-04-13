@@ -4,14 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">+
+    <link rel="stylesheet" href="./css/style.css">
 
     <title>Task App Rest API</title>
 </head>
 
 <body>
-    <div class="container">
-    <h1>Task App</h1>
+    <div class="container w-50 p-3 text-break">
+    <h1 class="mb-3">Task App</h1>
+    <hr>
     <p>The Task App allows users to create accounts and track their tasks, marking them as completed. It has built-in
         filtering and querying for tasks. Routes are secured behind authentication and tasks are automatically filtered
         by user profile. The API connects to a mongoDB instance that preserves all user and task information.
@@ -19,14 +21,17 @@
                 href="https://rest-api-task-manager.herokuapp.com/">https://rest-api-task-manager.herokuapp.com/</a>.
         </p>
     </p>
-    <h1>Rest API Documentation</h1>
+    <h1 class="mb-3">Rest API Documentation</h1>
+    <hr>
     <p>The following endpoints are accessible through the API. Select each to read more about the data constraints,
         responses, errors, and to see examples.</p>
-    <h2>Open Endpoints</h2>
-    <p>Open endpoints require no authentication</p>
-
-    <p>Register : POST /users/</p>
-    <p>Data example</p>
+    <h2 class="mb-3">Open Endpoints</h2>
+    <hr>
+    <p class="font-weight-bold">Open endpoints require no authentication</p>
+    
+    <p><a onclick='showDetails("register")'>Register</a> : <span class='bg-light p-1'>POST /users/</span></p>
+    <div id="hidden-register" class="card text-white bg-dark m-4 p-4" hidden>
+        <p class='card-text'>Data example:</p>
     <p>{
         </br>
         "name": "Test",</br>
@@ -34,8 +39,8 @@
         "password": "test1234"</br>
         }
     </p>
-    <p>Response</p>
-    <p>{</br>
+    <p class='card-text'>Response:</p>
+    <p class='card-text'>{</br>
         "user": {</br>
         "age": 0,</br>
         "_id": "5e944fc1adebd30017ce220a",</br>
@@ -48,17 +53,20 @@
         "token":
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTk0NGZjMWFkZWJkMzAwMTdjZTIyMGEiLCJpYXQiOjE1ODY3NzgwNDl9.5Ela8XTpl85PHfE2fISAW_G6ZgGrw_iueDU7laUBwk0"</br>
         }</p>
+        </div>      
+    
 
-    <p>Login : POST /users/login</p>
-    <p>Data example</p>
-    <p>{
+    <p><a onclick='showDetails("login")'>Login</a>: <span class='bg-light p-1'>POST /users/login</span></p>
+    <div id="hidden-login" class="card text-white bg-dark m-4 p-4" hidden>
+        <p class="card-text">Data example:</p>
+    <p class="card-text">{
         </br>
         "email": "test@testuser.com",</br>
         "password": "test1234"</br>
         }
     </p>
-    <p>Response</p>
-    <p>{</br>
+    <p class="card-text">Response:</p>
+    <p class="card-text">{</br>
         "user": {</br>
         "age": 0,</br>
         "_id": "5e944fc1adebd30017ce220a",</br>
@@ -71,25 +79,36 @@
         "token":
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZTk0NGZjMWFkZWJkMzAwMTdjZTIyMGEiLCJpYXQiOjE1ODY3NzgwNDl9.5Ela8XTpl85PHfE2fISAW_G6ZgGrw_iueDU7laUBwk0"</br>
         }</p>
-    <h2>Endpoints Requiring Authentication</h2>
+    </div>
+    
+    <h2 class="mb-3">Endpoints Requiring Authentication</h2>
+    <hr>
     <p>Closed endpoints require a valid JWT Token to be included in the request header. The JWT Token can be acquired
         through either the [Register] or [Login] endpoints above. The JWT Token is expected in the standard form:
     </p>
-    <p>Authorization: Bearer &ltJWT Token&gt
+    <p class="bg-light p-2">Authorization: Bearer &ltJWT Token&gt
     </p>
-    <h2>User Endpoints</h2>
-    <p>Logout Single: POST /users/logout</p>
-    <p>Remove provided JWT Token from user profile.</p>
+    <h2 class="mb-3">User Endpoints</h2>
+    <hr>
+    <p><a onclick='showDetails("logout-single")'>Logout Single</a>: <span class='bg-light p-1'>POST /users/logout</span></span></p>
+    <div id="hidden-logout-single" class="card text-white bg-dark m-4 p-4" hidden>
+        <p class="card-text">Remove provided JWT Token from user profile.</p>   
+    </div>
+    
 
-    <p>Logout All Sessions: POST /users/logoutAll</p>
-    <p>Note: The difference between /logout and /logoutAll is that /logout only removes the token supplied in the
+    <p><a onclick='showDetails("logout-all")'>Logout All Sessions</a>: <span class='bg-light p-1'>POST /users/logoutAll</span>
+        <div id="hidden-logout-all" class="card text-white bg-dark m-4 p-4" hidden>
+            <p class="card-text">Note: The difference between /logout and /logoutAll is that /logout only removes the token supplied in the
         header, effectively logging the user out from their current device. /logoutAll removes every JWT Token from
         their user profile, removing their account's access from every device.
     </p>
+        </div>
+    
 
-    <p>Show Info (self): GET /users/me</p>
-    <p>Response</p>
-    <p>{</br>
+    <p><a onclick='showDetails("show-info")'>Show Info (self)</a>: <span class='bg-light p-1'>GET /users/me</span></p>
+    <div id="hidden-show-info" class="card text-white bg-dark m-4 p-4" hidden>
+        <p class="card-text">Response:</p>
+    <p class="card-text">{</br>
         "user": {</br>
         "age": 0,</br>
         "_id": "5e944fc1adebd30017ce220a",</br>
@@ -100,15 +119,18 @@
         "__v": 1</br>
         },</br>
 
+    </div>
+    
 
-        <p>Update Info (self): PATCH /users/me</p>
-        <p>Data example</p>
-        <p>{<br>
+        <p><a onclick='showDetails("update-info")'>Update Info (self)</a>: <span class='bg-light p-1'>PATCH /users/me</span></p>
+        <div id="hidden-update-info" class="card text-white bg-dark m-4 p-4" hidden>
+            <p class="card-text">Data example</p>
+        <p class="card-text">{<br>
             "age": 12,<br>
             "password": "somepass123456"<br>
         }</p>
-        <p>Response</p>
-        <p>{<br>
+        <p class="card-text">Response</p>
+        <p class="card-text">{<br>
             "age": 12,<br>
             "_id": "5e94534b1ae4e3800c3f6045",<br>
             "name": "Test",<br>
@@ -117,33 +139,48 @@
             "updatedAt": "2020-04-13T12:00:02.156Z",<br>
             "__v": 1<br>
         }</p>
+        </div>
+        
 
 
-        <p>Delete User: DELETE /users/me</p>
-        <p>Deletes the user</p>
+        <p><a onclick='showDetails("delete-user")'>Delete User</a>: <span class='bg-light p-1'>DELETE /users/me</span></p>
+        <div id="hidden-delete-user" class="card text-white bg-dark m-4 p-4" hidden>
+            <p class="card-text">Deletes the user</p>
+        </div>
+        
 
-        <p>Upload Avatar: POST /users/me/avatar</p>
-        <p>Note: This route receives multipart/form-data rather than a JSON object. Its key-value pairs are avatar and a file ending in .jpg, .jpeg, or .png.
+        <p><a onclick='showDetails("upload-avatar")'>Upload Avatar:</a> <span class='bg-light p-1'>POST /users/me/avatar</span></p>
+        <div id="hidden-upload-avatar" class="card text-white bg-dark m-4 p-4" hidden>
+            <p class="card-text">Note: This route receives multipart/form-data rather than a JSON object. Its key-value pairs are avatar and a file ending in .jpg, .jpeg, or .png.
         </p>
-        <p>The image is resized to a 250 x 300 pixels and uploaded into the MongoDB store as a buffered object. Returns the user object.
+        <p class="card-text">The image is resized to a 250 x 300 pixels and uploaded into the MongoDB store as a buffered object. Returns the user object.
         </p>
 
+        </div>
+        
 
-        <p>Delete Avatar: DELETE /users/me/avatar</p>
-        <p>Deletes the user avatar</p>
+        <p><a onclick='showDetails("delete-avatar")'>Delete Avatar</a>: <span class='bg-light p-1'>DELETE /users/me/avatar</span></p>
+        <div id="hidden-delete-avatar" class="card text-white bg-dark m-4 p-4" hidden>
+                   <p class="card-text">Deletes the user avatar</p>
+        </div>
 
-        <p>Show Avatar: GET /users/:id/avatar</p>
-        <p>Shows the user avatar</p>
+        <p><a onclick='showDetails("show-avatar")'>Show Avatar</a>: <span class='bg-light p-1'>GET /users/:id/avatar</span></p>
+        <div id="hidden-show-avatar" class="card text-white bg-dark m-4 p-4" hidden>
+            <p class="card-text">Shows the user avatar</p>
+        </div>
+        
 
-        <h2>Task Enpoints</h2>
-        <p>List All Tasks: GET /tasks</p>
-        <p>URL Params :</p>
+        <h2 class="mb-3">Task Enpoints</h2>
+        <hr>
+        <p><a onclick='showDetails("list-all-tasks")'>List All Tasks</a>: <span class='bg-light p-1'>GET /tasks</span></p>
+        <div id="hidden-list-all-tasks" class="card text-white bg-dark m-4 p-4" hidden>
+            <p class="card-text">URL Params :</p>
 
-           <p>Filter By Completion: ?completed=true/false/null</p>
-            <p>Pagination: ?limit=someIntValue</p>
-            <p>Sorting: ?sortBy=createdAt:asc/desc</p>
-        <p>Response</p>
-        <p>[</br>
+           <p class="card-text">Filter By Completion: ?completed=true/false/null</p>
+            <p class="card-text">Pagination: ?limit=someIntValue</p>
+            <p class="card-text">Sorting: ?sortBy=createdAt:asc/desc</p>
+        <p class="card-text">Response:</p>
+        <p class="card-text">[</br>
             {</br>
                 "completed": false,</br>
                 "_id": "5e9458750e843f41b8d6ed2f",</br>
@@ -161,16 +198,19 @@
                 "createdAt": "2020-04-13T12:18:16.041Z",</br>
                 "updatedAt": "2020-04-13T12:18:16.041Z",</br>
                 "__v": 0</br>
-            }
+            }</br>
         ]</p>
+        </div>
+        
 
-        <p>Create Single Task: POST /tasks</p>
-        <p>Data example:</p>
-        <p>{ </br>
+        <p><a onclick='showDetails("create-single-task")'>Create Single Task</a>: <span class='bg-light p-1'>POST /tasks</span></p>
+        <div id="hidden-create-single-task" class="card text-white bg-dark m-4 p-4" hidden>
+            <p class="card-text">Data example:</p>
+        <p class="card-text">{ </br>
             "description": "Learn RestAPI and MongoDB"</br>
         }</p>
-        <p>Response:</p>
-        <p> {
+        <p class="card-text">Response:</p>
+        <p class="card-text"> {
             "completed": false,</br>
             "_id": "5e9458880e843f41b8d6ed30",</br>
             "description": "Learn RestAPI and MongoDB",</br>
@@ -179,10 +219,13 @@
             "updatedAt": "2020-04-13T12:18:16.041Z",</br>
             "__v": 0</br>
         }</p>
+        </div>
+        
 
-        <p>Show Single Task: GET /tasks/:id</p>
-        <p>Response:</p>
-        <p> {
+        <p><a onclick='showDetails("show-single-task")'>Show Single Task</a>: <span class='bg-light p-1'>GET /tasks/:id</span></p>
+        <div id="hidden-show-single-task" class="card text-white bg-dark m-4 p-4" hidden>
+             <p class="card-text">Response:</p>
+        <p class="card-text"> {
             "completed": false,</br>
             "_id": "5e9458880e843f41b8d6ed30",</br>
             "description": "Learn RestAPI and MongoDB",</br>
@@ -191,14 +234,16 @@
             "updatedAt": "2020-04-13T12:18:16.041Z",</br>
             "__v": 0</br>
         }</p>
+        </div>
 
-        <p>Update Single Task: PATCH /tasks/:id</p>
-        <p>Data example:</p>
-        <p>{  </br>
+        <p><a onclick='showDetails("update-single-task")'>Update Single Task</a>: <span class='bg-light p-1'>PATCH /tasks/:id</span></p>
+        <div id="hidden-update-single-task" class="card text-white bg-dark m-4 p-4" hidden>
+        <p class="card-text">Data example:</p>
+        <p class="card-text">{  </br>
             "description": "Learn NodeJS"</br>
         }</p>
-        <p>Respone:</p>
-        <p>{</br>
+        <p class="card-text">Respone:</p>
+        <p class="card-text">{</br>
             "completed": false,</br>
             "_id": "5e9458880e843f41b8d6ed30",</br>
             "description": "Learn NodeJS",</br>
@@ -207,9 +252,12 @@
             "updatedAt": "2020-04-13T12:24:16.066Z",</br>
             "__v": 0</br>
         }</p>
-        <p>Delete Single Task: DELETE /tasks/:id</p>
-        <p>Response:</p>
-        <p>{</br>
+        </div>
+       
+        <p><a onclick='showDetails("delete-single-task")'>Delete Single Task</a>: <span class='bg-light p-1'>DELETE /tasks/:id</span></p>
+        <div id="hidden-delete-single-task" class="card text-white bg-dark m-4 p-4" hidden>
+            <p class="card-text">Response:</p>
+        <p class="card-text">{</br>
             "completed": false,</br>
             "_id": "5e9458880e843f41b8d6ed30",</br>
             "description": "Learn NodeJS",</br>
@@ -218,9 +266,12 @@
             "updatedAt": "2020-04-13T12:24:16.066Z",</br>
             "__v": 0</br>
         }</p>
+        </div>
+        
+       
 
 
     </div>
 </body>
-
+<script src="./js/app.js"></script>
 </html>
