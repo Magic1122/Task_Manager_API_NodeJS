@@ -5,3 +5,9 @@ a {
 a:hover {
     cursor: pointer;
 }
+
+@media (min-width: 576px) { 
+    .container {
+        max-width: 50%;
+    }
+ }
